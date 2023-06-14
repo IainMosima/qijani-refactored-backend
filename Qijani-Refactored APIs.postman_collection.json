@@ -1,0 +1,670 @@
+{
+	"info": {
+		"_postman_id": "5b1af9de-822b-48a5-ae41-380f25e6f6cb",
+		"name": "Qijani  APIs",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Products",
+			"item": [
+				{
+					"name": "Get all products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/products",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productName",
+									"value": "Garlic",
+									"contentType": "multipart/form-data",
+									"type": "default"
+								},
+								{
+									"key": "productImg",
+									"contentType": "multipart/form-data",
+									"type": "file",
+									"src": "/home/space/Desktop/e-soko-images/garlic.png"
+								},
+								{
+									"key": "categoryName",
+									"value": "Vegetables",
+									"contentType": "multipart/form-data",
+									"type": "default"
+								},
+								{
+									"key": "available",
+									"value": "true",
+									"contentType": "multipart/form-data",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "100",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/products",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updating a product",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productName",
+									"value": "Tomatoes",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "60",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/products/63e3f6ac3e1014ec4b4536d8",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"63e3f6ac3e1014ec4b4536d8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deleting a product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/products/63e36199c4511339d97f02d0",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"63e36199c4511339d97f02d0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Query a product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/products/query/beans",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"query",
+								"beans"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting a specified category data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/products/category?category=Vegetables&records=2",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"category"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "Vegetables"
+								},
+								{
+									"key": "records",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Adding a new category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"categoryName\": \"Vegetables\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/products/addCategory",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"addCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deleting a category",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"categoryName\": \"Vegetables\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/products/deleteCategory",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"deleteCategory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gettting all available categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/products/availableCategories",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"availableCategories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deleting a category",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/products/categories?categoryName",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"categories"
+							],
+							"query": [
+								{
+									"key": "categoryName",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting a product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/products/63e361d6c4511339d97f02d6",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"63e361d6c4511339d97f02d6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting productsImage signedUrl",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get authenticated user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/users/",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "spacecadet",
+									"type": "default"
+								},
+								{
+									"key": "email",
+									"value": "spacecadet@spacex.com",
+									"type": "default"
+								},
+								{
+									"key": "phoneNumber",
+									"value": "+254123456789",
+									"type": "default"
+								},
+								{
+									"key": "location",
+									"value": "Nairobi",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "outtaspace",
+									"type": "default"
+								},
+								{
+									"key": "profileImg",
+									"type": "file",
+									"src": "/home/space/Desktop/e-soko-images/astrounant.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/users/signup",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/users/logout",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usernameEmail\": \"spacecadet\",\n    \"password\": \"outtaspace\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/users/login",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get image signed url",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Packages",
+			"item": [
+				{
+					"name": "Get all packages",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/packages/",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"packages",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create a package",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\":\"64075c497ab1999d04fde5e8\",\n    \"packageName\":\"My Comrade Package\",\n    \"productId\": \"f29873adb06a28a51d014040c0253fb7\",\n    \"price\": 360\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/packages/",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"packages",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Updating a package",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"userId\": \"64075c497ab1999d04fde5e8\",\n        \"packageName\": \"My Comrade Package\",\n        \"items\": [\n        {\n            \"productId\": \"f29873adb06a28a51d014040c0253fb7\",\n            \"price\": 360\n        },\n        {\n            \"productId\": \"63eb718a457da0844a0582e8\",\n            \"price\": 300\n        }\n        ],\n        \"__v\": 1\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/packages/641c74eb83b4b576142d39ec",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"packages",
+								"641c74eb83b4b576142d39ec"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deleting a package",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/packages/",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"packages",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Getting a package",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/packages/6424192ea48dae98c9787d9f",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"packages",
+								"6424192ea48dae98c9787d9f"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "Get all orders",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/orders/",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create an order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"63e3fb144d1547e4dd514e71\",\n    \"price\": \"10\",\n    \"paymentType\": \"mpesa\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/orders/63eb4f0b0f74709ccf963054",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"63eb4f0b0f74709ccf963054"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "port",
+			"value": "http://54.224.198.199:5000",
+			"type": "default"
+		}
+	]
+}
