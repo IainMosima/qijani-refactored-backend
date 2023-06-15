@@ -33,7 +33,7 @@ app.use(session({
 }));
 
 // using morgan to log http requests into the console
-if (env.environment){
+if (env.ENVIRONMENT === 'development') {
     app.use(morgan("dev"));
 }
 

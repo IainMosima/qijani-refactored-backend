@@ -5,5 +5,6 @@ import { port, str, num } from "envalid/dist/validators";
 export default cleanEnv(process.env, {
     MONGO_CONNECTION_STRING: str(),
     PORT: port(),
-    SESSION_SECRETY_KEY: str(),    
+    SESSION_SECRETY_KEY: str(),
+    ENVIRONMENT: str()
 });
