@@ -33,7 +33,9 @@ app.use(session({
 }));
 
 // using morgan to log http requests into the console
-app.use(morgan("dev"));
+if (env.environment){
+    app.use(morgan("dev"));
+}
 
 // creating user session using mongo-connect
 // NB: change this in the future to auth0
