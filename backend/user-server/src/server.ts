@@ -12,6 +12,6 @@ mongoose.connect(env.MONGO_CONNECTION_STRING)
 .then(() => {
     console.log("Mongoose connection established")
     app.listen(port, ()=>{
-        console.log(`Qijani's user server running on port ${port}`);
+        console.log(`Qijani's user's server running on port ${port}`);
     })
 }).catch(console.error);
