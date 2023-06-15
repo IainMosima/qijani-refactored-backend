@@ -3,16 +3,12 @@ import express, { Request, Response } from "express";
 import morgan from "morgan";
 import bodyParser from "body-parser";
 import createHtttpError, { isHttpError } from "http-errors";
-import userRoutes from "./routes/user";
-import productRoutes from "./routes/products";
 import packageRoutes from "./routes/package";
-import orderRoutes from "./routes/order";
 import MongooseStore from "connect-mongo";
 import session from "express-session";
 import env from "./utils/validateEnv";
-import { requireAuth } from "./middleware/requireAuth";
 import cors from "cors";
-
+import { requireAuth } from "./middleware/requireAuth";
 
 
 
@@ -39,19 +35,20 @@ app.use(session({
 // using morgan to log http requests into the console
 app.use(morgan("dev"));
 
-
-
-// products endpoint
-app.use("/api/v1/products", productRoutes);
-
-// user endpoint
-app.use("/api/v1/users", userRoutes);
+// creating user session using mongo-connect
+// NB: change this in the future to auth0
+app.use(session({
+    secret: env.SESSION_SECRETY_KEY,
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 60 * 60 * 1500 },
+    rolling: true,
+    store: MongooseStore.create({ mongoUrl: env.MONGO_CONNECTION_STRING })
+}));
 
 // package endpoint
 app.use("/api/v1/packages", requireAuth, packageRoutes);
 
-// order endpoint
-app.use("/api/v1/orders", requireAuth, orderRoutes);
 
 // middleware to handle an endpoint not found
 app.use((req, res, next) => {
