@@ -9,4 +9,7 @@ router.get('/', OrderController.getOrders);
 // creating an order
 router.post('/:packageId', OrderController.createOrder);
 
+// deleting an order
+router.delete('/:orderId', OrderController.cancelOrder);
+
 export default router;

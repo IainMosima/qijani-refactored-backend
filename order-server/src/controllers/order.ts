@@ -13,7 +13,7 @@ export const getOrders: RequestHandler = async (req, res, next) => {
     try {
         assertIsDefined(authenticatedUserId);
 
-        const orders = await OrderModel.find({ userId: authenticatedUserId});
+        const orders = await OrderModel.find({ userId: authenticatedUserId });
 
         res.status(200).json(orders);
     } catch (err) {
@@ -40,11 +40,11 @@ export const createOrder: RequestHandler<OrderCreateParams, unknown, OrderBody, 
     const packageId = req.params.packageId;
     const price = req.body.price;
     const paymentType = req.body.paymentType;
-    
+
 
     try {
         assertIsDefined(authenticatedUserId);
-        
+
         if (!packageId) {
             throw createHttpError(400, "No package checked out!");
         }
@@ -69,8 +69,8 @@ export const createOrder: RequestHandler<OrderCreateParams, unknown, OrderBody, 
             price: price,
             paymentStatus: 'notPaid',
             delivered: false
-            };
-        
+        };
+
         if (paymentType && price && authenticatedUserPhoneNumber) {
             switch (paymentType) {
                 // will add other payment methods here
@@ -79,16 +79,21 @@ export const createOrder: RequestHandler<OrderCreateParams, unknown, OrderBody, 
                     const response = await mpesaExpress(price, authenticatedUserPhoneNumber);
                     // eslint-disable-next-line no-case-declarations
                     const resultCode = response.ResponseCode;
-                    
+
                     if (resultCode) {
                         newOrderParams.paymentStatus = 'pending';
                         newOrder = await OrderModel.create(newOrderParams);
-        
+
                         res.status(201).json(newOrder);
                     }
-                    
+
                     break;
-            
+                case 'later':
+                    newOrderParams.paymentStatus = 'pending';
+                    newOrder = await OrderModel.create(newOrderParams);
+
+                    res.status(201).json(newOrder);
+
             }
         } else {
             newOrder = await OrderModel.create(newOrderParams);
@@ -96,7 +101,7 @@ export const createOrder: RequestHandler<OrderCreateParams, unknown, OrderBody, 
 
         }
 
-        
+
 
     } catch (error) {
         next(error);
@@ -106,7 +111,7 @@ export const createOrder: RequestHandler<OrderCreateParams, unknown, OrderBody, 
 // canceling an order
 export const cancelOrder: RequestHandler = async (req, res, next) => {
     const orderId = req.params.orderId;
-
+    
     try {
         if (!mongoose.isValidObjectId(orderId)) {
             throw createHttpError(400, "Order must be a valid id!")
@@ -117,10 +122,14 @@ export const cancelOrder: RequestHandler = async (req, res, next) => {
             throw createHttpError(404, "Order not found");
         }
         await order.remove();
+        res.sendStatus(204);
+
 
     } catch (err) {
         next(err);
     }
 }
+
+// updating and order payment status
 
 

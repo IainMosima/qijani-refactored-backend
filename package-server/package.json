@@ -1,5 +1,5 @@
 {
-  "name": "qijani-backend",
+  "name": "qijani-package-backend",
   "version": "1.0.0",
   "description": "qiani's backend",
   "main": "dist/server.js",

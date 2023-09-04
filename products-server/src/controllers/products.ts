@@ -15,12 +15,12 @@ export const filterProducts: RequestHandler = async (req, res, next) => {
     const query = req.params.query;
 
     try {
-        const products = await ProductModel.find({ 
+        const products = await ProductModel.find({
             $or: [
-                { productName: new RegExp('^' +query, 'i') },
-                { categoryName: new RegExp('^' +query, 'i') },
+                { productName: new RegExp('^' + query, 'i') },
+                { categoryName: new RegExp('^' + query, 'i') },
             ]
-         });
+        });
         res.status(200).json(products);
     } catch (err) {
         next(err);
@@ -34,18 +34,18 @@ export const getCategoryProducts: RequestHandler = async (req, res, next) => {
 
     try {
         let products;
-        if (records){
+        if (records) {
             const pipeline = [
                 { $match: { categoryName: category } },
                 { $sample: { size: parseInt(records) } }
             ];
-    
+
             products = await ProductModel.aggregate(pipeline);
         } else {
             products = await ProductModel.find({ categoryName: category });
         }
         res.status(200).json(products);
-        
+
     } catch (error) {
         next(error);
     }
@@ -109,12 +109,12 @@ export const createProduct: RequestHandler<unknown, unknown, CreateProductBody, 
     let productImgKey = '';
 
     try {
-        if (productImg){
+        if (productImg) {
             const result = await s3API.uploadFile(productImg, productsBucket);
             // deleting an image from the upload dir once uploaded
             await unlinkFile(productImg.path);
-            
-            productImgKey = result.Key;
+
+            if (result) productImgKey = result;
         }
 
         // uploading the other records to mongodb
@@ -135,7 +135,7 @@ export const createProduct: RequestHandler<unknown, unknown, CreateProductBody, 
         }
         next(error);
     }
-    
+
 }
 
 
@@ -174,28 +174,26 @@ export const updateProduct: RequestHandler<unknown, unknown, UpdateProductBody, 
         if (categoryName) product.categoryName = categoryName;
         if (available) product.available = available;
         if (price) product.price = price;
-        
+
         if (productImg) {
             // deletinng the image from the s3 bucket
             if (product.productImgKey) {
                 await s3API.deleteImage(product.productImgKey, productsBucket);
             }
             // uploading the new image to s3
-            let imageKey = '';
-            const result = await s3API.uploadFile(productImg, productsBucket);
+            const imageKey = await s3API.uploadFile(productImg, productsBucket);
             // deleting an image from the upload dir once uploaded
             await unlinkFile(productImg.path);
-            imageKey = result.Key;
-            
+
             product.productImgKey = imageKey;
         }
 
         const updatedProduct = await product.save();
-        res.status(200).send({ 
-            success: true, 
-            message: "Product updated successfully", 
+        res.status(200).send({
+            success: true,
+            message: "Product updated successfully",
             data: updatedProduct
-         });
+        });
     } catch (error) {
         next(error);
     }
@@ -211,7 +209,7 @@ export const deleteProduct: RequestHandler = async (req, res, next) => {
         }
         const product = await ProductModel.findById(productId).exec();
 
-        if(!product) {
+        if (!product) {
             throw createHttpError(404, "Product not found");
         }
 
@@ -240,7 +238,7 @@ export const getAvailableCategories: RequestHandler = async (req, res, next) => 
         } else {
             throw createHttpError(400, "Invalid categories id");
         }
-        
+
     } catch (error) {
         next(error);
     }
@@ -259,7 +257,7 @@ export const updateCategories: RequestHandler<unknown, unknown, UpdateDeleteCate
     console.log(categoryId)
 
     try {
-        if(!mongoose.isValidObjectId(categoryId)){
+        if (!mongoose.isValidObjectId(categoryId)) {
             throw createHttpError(400, "Categories must have a valid id");
         }
 
@@ -291,7 +289,7 @@ export const deleteCategory: RequestHandler<unknown, unknown, UpdateDeleteCatego
 
 
     try {
-        if(!mongoose.isValidObjectId(categoryId)){
+        if (!mongoose.isValidObjectId(categoryId)) {
             throw createHttpError(400, "Categories must have a valid id");
         }
 

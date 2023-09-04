@@ -8,6 +8,9 @@ const userSchema = new Schema({
     location: { type: String, required: true },
     password: { type: String, required: true, select: false },
     profileImgKey: { type: String },
+    county: { type: String, default: ' '},
+    area: { type: String, default: ' '},
+    landmark: { type: String, default: ' '}
 });
 
 type User = InferSchemaType<typeof userSchema>;

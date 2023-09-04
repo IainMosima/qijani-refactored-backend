@@ -10,34 +10,51 @@ import mongoose from "mongoose";
 
 const usersBucket = env.AWS_BUCKET_USERS_NAME;
 
-
-
 // checking if a user is logged in
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const authenticatedUser = req.session.userId;
 
     try {
-        const user = await UserModel.findById(authenticatedUser).select("_id username email phoneNumber location profileImgKey").exec();
+        const user = await UserModel.findById(authenticatedUser).select("_id username email phoneNumber location profileImgKey county area landmark").exec();
         res.status(200).send(user);
-    } catch (error) {
-        next (error);
-    }
-}
-
-
-// fetching a user's profile image
-export const getProfileImageSignedUrl: RequestHandler = async (req, res, next) => {
-    const imageKey = req.params.imageKey as string;
-    try {
-        const signedurl = await s3API.getImageSignedurl(imageKey, usersBucket);
-        const response = {
-            url: signedurl
-        };
-        res.status(200).json(response);
     } catch (error) {
         next(error);
     }
 }
+
+// checking if username exists
+export const checkUername: RequestHandler = async (req, res, next) => {
+    const query = req.params.query;
+
+    try {
+        const user = await UserModel.findOne({username: query});
+        
+        if (user) {
+            res.status(200).send(true);
+        } else {
+            res.status(200).send(false);
+        }
+    } catch (err) {
+        next(err);
+    }
+}
+
+// checking if email exists
+export const checkEmail: RequestHandler = async (req, res, next) => {
+    const query = req.params.query;
+
+    try {
+        const user = await UserModel.findOne({ email: query});
+        if (user) {
+            res.status(200).send(true);
+        } else {
+            res.status(200).send(false);
+        }
+    } catch (err) {
+        next(err);
+    }
+}
+
 
 //  signing up a new user
 interface SignupBody {
@@ -46,7 +63,10 @@ interface SignupBody {
     phoneNumber?: string,
     location?: string,
     password?: string,
-    profileImg?: File
+    profileImg?: File,
+    county?: string,
+    area?: string,
+    landmark?: string,
 }
 
 export const signup: RequestHandler<unknown, unknown, SignupBody, unknown> = async (req, res, next) => {
@@ -56,36 +76,32 @@ export const signup: RequestHandler<unknown, unknown, SignupBody, unknown> = asy
     const location = req.body.location;
     const password = req.body.password;
     const profileImg = req.file;
+    const county = req.body.county
+    const area = req.body.area
+    const landmark = req.body.landmark
 
     try {
-        if (!username || !email || !phoneNumber || !location || !password) {
-            throw createHttpError(400, "Missing necessary parameters");
-        }
+        if (!username || !email || !phoneNumber || !location || !password) throw createHttpError(400, "Missing necessary parameters");
 
         const existingUser = await UserModel.findOne({ username: username }).exec();
 
-        if (existingUser) {
-            throw createHttpError(404, "Username already taken. Try a different username one");
-        }
+        if (existingUser) throw createHttpError(404, "Username already taken. Try a different username one");
 
-        const existingEmail = await UserModel.findOne({ email: email}).exec();
+        const existingEmail = await UserModel.findOne({ email: email }).exec();
 
-        if (existingEmail) {
-            throw createHttpError(404, "Email already taken. Try a different email");
-        }
+        if (existingEmail) throw createHttpError(404, "Email already taken. Try a different email");
 
         // enctypting the password before storing it to th db
         const hasedAndSaltedPassword = await AuthSec.hashAndSalt(password);
 
         let profileImgKey = '';
 
-        try{
+        try {
             // uploading user profile picture to s3 user bucket
             if (profileImg) {
                 const result = await s3API.uploadFile(profileImg, usersBucket);
                 await unlinkFile(profileImg.path);
-
-                profileImgKey = result.Key;
+                if (result) profileImgKey = result;
             }
 
             // uploading to mongodb
@@ -95,7 +111,10 @@ export const signup: RequestHandler<unknown, unknown, SignupBody, unknown> = asy
                 phoneNumber: phoneNumber,
                 location: location,
                 password: hasedAndSaltedPassword,
-                profileImgKey: profileImgKey
+                profileImgKey: profileImgKey,
+                county: county,
+                area: area,
+                landmark: landmark,
             });
 
             // stroing userId and phoneNumber in session
@@ -117,7 +136,7 @@ export const signup: RequestHandler<unknown, unknown, SignupBody, unknown> = asy
 // logging out a user
 export const logout: RequestHandler = (req, res, next) => {
     req.session.destroy(error => {
-        if(error) {
+        if (error) {
             next(error);
         } else {
             res.sendStatus(200);
@@ -139,24 +158,24 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
             throw createHttpError(400, "Parameters Missing");
         }
 
-        let user = await UserModel.findOne({ username: usernameEmail }).select("+password +phoneNumber").exec();
+        let user = await UserModel.findOne({ username: usernameEmail }).select("+password +phoneNumber +email").exec();
 
-        
 
-        if(!user) {
-            user = await UserModel.findOne({ email: usernameEmail }).select("+password +phoneNumber").exec();
 
-            if(!user) {
-                return res.status(401).json({ message: "Invalid credentials"})
+        if (!user) {
+            user = await UserModel.findOne({ email: usernameEmail }).select("+password +phoneNumber +email").exec();
+
+            if (!user) {
+                return res.status(401).json({ message: "Invalid credentials" })
 
             }
-        } 
+        }
 
         // checking for password match
         const passwordMatch = await AuthSec.comparePassword(password, user.password);
-        
+
         if (!passwordMatch) {
-                return res.status(401).json({ message: "Invalid credentials"})
+            return res.status(401).json({ message: "Invalid credentials" })
 
         }
 
@@ -166,12 +185,16 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
         res.status(201).json({
             _id: user._id,
             username: user.username,
+            email: user.email,
             location: user.location,
             phoneNumber: user.phoneNumber,
-            profileImgKey: user.profileImgKey
+            profileImgKey: user.profileImgKey,
+            county: user.county,
+            area: user.area,
+            landmark: user.landmark
         });
 
-    } catch(error) {
+    } catch (error) {
         next(error);
     }
 }
@@ -192,9 +215,9 @@ export const removeAccount: RequestHandler = async (req, res, next) => {
 }
 
 // updating a user's profile
-interface UpdateProfileParam {
-    userId: mongoose.Types.ObjectId
-}
+// interface UpdateProfileParam {
+//     userId: mongoose.Types.ObjectId
+// }
 
 interface UpdateProfileBody {
     username?: string,
@@ -203,10 +226,14 @@ interface UpdateProfileBody {
     location?: string,
     prevPassword?: string,
     newPassword?: string,
-    profileImg?: File
+    profileImg?: File,
+    county?: string,
+    area?: string,
+    landmark?: string,
 }
-export const updateUserProfile: RequestHandler <UpdateProfileParam, unknown, UpdateProfileBody, unknown> = async (req, res, next) => {
-    const userId = req.params.userId;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const updateUserProfile: RequestHandler<any, unknown, UpdateProfileBody, unknown> = async (req, res, next) => {
+    const userId = req.params.userId as mongoose.Types.ObjectId;
     const username = req.body.username;
     const email = req.body.email;
     const phoneNumber = req.body.phoneNumber;
@@ -214,15 +241,18 @@ export const updateUserProfile: RequestHandler <UpdateProfileParam, unknown, Upd
     const prevPassword = req.body.prevPassword;
     const newPassword = req.body.newPassword;
     const profileImg = req.file;
+    const county = req.body.county;
+    const area = req.body.area;
+    const landmark = req.body.landmark;
 
     try {
         if (!mongoose.isValidObjectId(userId)) {
             throw createHttpError(400, "UserId missing");
         }
 
-        const user = await UserModel.findById(userId).exec();
+        const user = await UserModel.findById(userId).select("_id username email phoneNumber password location profileImgKey county area landmark").exec();
 
-        if(!user) {
+        if (!user) {
             throw createHttpError(404, "User not found");
         }
 
@@ -230,6 +260,9 @@ export const updateUserProfile: RequestHandler <UpdateProfileParam, unknown, Upd
         if (email) user.email = email;
         if (phoneNumber) user.phoneNumber = phoneNumber;
         if (location) user.location = location;
+        if (county) user.county = county;
+        if (area) user.area = area
+        if (landmark) user.landmark = landmark
 
         // updating user password
         if (newPassword && prevPassword) {
@@ -250,23 +283,22 @@ export const updateUserProfile: RequestHandler <UpdateProfileParam, unknown, Upd
             if (user.profileImgKey) {
                 await s3API.deleteImage(user.profileImgKey, usersBucket);
             }
+
             // uploading users new profile image
             let imageKey = '';
             const result = await s3API.uploadFile(profileImg, usersBucket);
             await unlinkFile(profileImg.path);
-            imageKey = result.Key;
+            if (result) imageKey = result;
             user.profileImgKey = imageKey;
         }
 
         const updatedUserProfile = await user.save();
 
-        res.status(200).send({ 
-            success: true, 
-            message: "Profile updated successfully", 
-            data: updatedUserProfile
-         })
+        res.status(200).json(updatedUserProfile);
 
     } catch (error) {
         next(error);
     }
 }
+
+
