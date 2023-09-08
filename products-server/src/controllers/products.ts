@@ -94,12 +94,14 @@ interface CreateProductBody {
     categoryName?: string,
     price?: number,
     available?: string
+    unit: string;
 }
 export const createProduct: RequestHandler<unknown, unknown, CreateProductBody, unknown> = async (req, res, next) => {
     const productName = req.body.productName;
     const categoryName = req.body.categoryName;
     const available = req.body.available;
     const price = req.body.price;
+    const unit = req.body.unit;
     const productImg = req.file;
 
     if (!productName) {
@@ -123,7 +125,8 @@ export const createProduct: RequestHandler<unknown, unknown, CreateProductBody, 
             productImgKey: productImgKey,
             categoryName: categoryName,
             price: price,
-            available: available
+            available: available,
+            unit: unit
         });
 
         res.status(200).json(newProduct);
@@ -149,7 +152,8 @@ interface UpdateProductBody {
     productImg?: File,
     categoryName?: string,
     available?: boolean,
-    price: number
+    price?: number,
+    unit?: string
 }
 
 export const updateProduct: RequestHandler<unknown, unknown, UpdateProductBody, unknown> = async (req, res, next) => {
@@ -158,6 +162,7 @@ export const updateProduct: RequestHandler<unknown, unknown, UpdateProductBody, 
     const categoryName = req.body.categoryName;
     const available = req.body.available;
     const price = req.body.price;
+    const unit = req.body.unit;
     const productImg = req.file;
 
     try {
@@ -174,6 +179,7 @@ export const updateProduct: RequestHandler<unknown, unknown, UpdateProductBody, 
         if (categoryName) product.categoryName = categoryName;
         if (available) product.available = available;
         if (price) product.price = price;
+        if (unit) product.unit = unit;
 
         if (productImg) {
             // deletinng the image from the s3 bucket

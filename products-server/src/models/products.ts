@@ -5,7 +5,8 @@ const productsSchema = new Schema({
     productImgKey: { type: String },
     categoryName: { type: String, required: true},
     price: { type: Number, required: true },
-    available: { type: Boolean }
+    available: { type: Boolean },
+    unit: { type: String, required: true },
 });
 
 type Proudct = InferSchemaType<typeof productsSchema>;
