@@ -7,5 +7,5 @@ spec:
     app: orders-server
   ports:
     - protocol: TCP
-      port: 5000
-      targetPort: 5003
+      port: 5003
+      targetPort: 5000
