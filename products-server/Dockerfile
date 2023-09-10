@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # Expose the port that your Express app is listening on
-EXPOSE 3000
+EXPOSE 5000
 
 # Set the command to run your Express app
 CMD ["node", "dist/server.js"]
