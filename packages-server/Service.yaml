@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: packages-server
+spec:
+  selector:
+    app: packages-server
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5002

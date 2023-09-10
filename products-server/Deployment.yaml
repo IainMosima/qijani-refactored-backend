@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: products-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: products-server
+  template:
+    metadata:
+      labels:
+        app: products-server
+    spec:
+      containers:
+        - name: products-server
+          image: mosimaiain/products-server:prod
+          ports:
+            - containerPort: 5000
