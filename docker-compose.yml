@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  orders-server:
+    build:
+      context: ./orders-server
+    image: mosimaiain/orders-server:prod
+
+  packages-server:
+    build:
+      context: ./packages-server
+    image: mosimaiain/packages-server:prod
+
+  products-server:
+    build:
+      context: products-server
+    image: mosimaiain/products-server
+
+  users-server:
+    build:
+      context: users-server
+    image: mosimaiain/users-server
+  
+  reverseproxy:
+    build:
+      context: reverseproxy
+    image: mosimaiain/reverseproxy
