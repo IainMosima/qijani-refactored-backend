@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reverseproxy-backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: reverseproxy-backend
+  template:
+    metadata:
+      labels:
+        app: reverseproxy-backend
+    spec:
+      containers:
+        - name: reverseproxy-backend
+          image: mosimaiain/reverseproxy-backend:prod
+          ports:
+            - containerPort: 5000
