@@ -1,25 +1,28 @@
 import { RequestHandler } from "express";
-import UserModel from "../models/users";
 import createHttpError from "http-errors";
-import * as AuthSec from "../utils/authSec";
-import env from "../utils/validateEnv";
-import * as s3API from "../aws/s3";
-import { unlinkFile } from "../utils/unlinkFIle";
+import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
+import * as s3API from "../aws/s3";
+import UserModel from "../models/users";
+import * as AuthSec from "../utils/authSec";
+import { unlinkFile } from "../utils/unlinkFIle";
+import env from "../utils/validateEnv";
 
 
 const usersBucket = env.AWS_BUCKET_USERS_NAME;
-
+const secretKey = env.SESSION_SECRETY_KEY;
 // checking if a user is logged in
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
-    const authenticatedUser = req.session.userId;
-
-    try {
-        const user = await UserModel.findById(authenticatedUser).select("_id username email phoneNumber location profileImgKey county area landmark").exec();
-        res.status(200).send(user);
-    } catch (error) {
-        next(error);
+    const token = req.headers.authorization as string;
+    if (!token) {
+        res.status(401).send('Unauthorized');
     }
+    jwt.verify(token.split(' ')[1] || ' ', secretKey, (err, decoded) => {
+        if (err) {
+            res.status(401).send('Invalid token');
+        }
+        res.status(200).json(decoded);
+    });
 }
 
 // checking if username exists
@@ -27,8 +30,8 @@ export const checkUername: RequestHandler = async (req, res, next) => {
     const query = req.params.query;
 
     try {
-        const user = await UserModel.findOne({username: query});
-        
+        const user = await UserModel.findOne({ username: query });
+
         if (user) {
             res.status(200).send(true);
         } else {
@@ -44,7 +47,7 @@ export const checkEmail: RequestHandler = async (req, res, next) => {
     const query = req.params.query;
 
     try {
-        const user = await UserModel.findOne({ email: query});
+        const user = await UserModel.findOne({ email: query });
         if (user) {
             res.status(200).send(true);
         } else {
@@ -117,11 +120,21 @@ export const signup: RequestHandler<unknown, unknown, SignupBody, unknown> = asy
                 landmark: landmark,
             });
 
-            // stroing userId and phoneNumber in session
-            req.session.userId = newUser._id;
-            req.session.phoneNumber = newUser.phoneNumber;
+            const token = jwt.sign(
+                {
+                    _id: newUser._id,
+                    username: newUser.username,
+                    email: newUser.email,
+                    location: newUser.location,
+                    phoneNumber: newUser.phoneNumber,
+                    profileImgKey: newUser.profileImgKey,
+                    county: newUser.county,
+                    area: newUser.area,
+                    landmark: newUser.landmark
+                }, secretKey, { expiresIn: '48h' }
+            )
 
-            res.status(201).json(newUser);
+            res.status(201).json(token);
 
         } catch (error) {
             next(error);
@@ -131,17 +144,6 @@ export const signup: RequestHandler<unknown, unknown, SignupBody, unknown> = asy
     } catch (error) {
         next(error);
     }
-}
-
-// logging out a user
-export const logout: RequestHandler = (req, res, next) => {
-    req.session.destroy(error => {
-        if (error) {
-            next(error);
-        } else {
-            res.sendStatus(200);
-        }
-    });
 }
 
 // logging in a user
@@ -179,20 +181,22 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
 
         }
 
-        req.session.userId = user._id;
-        req.session.phoneNumber = user.phoneNumber;
+        const token = jwt.sign(
+            {
+                _id: user._id,
+                username: user.username,
+                email: user.email,
+                location: user.location,
+                phoneNumber: user.phoneNumber,
+                profileImgKey: user.profileImgKey,
+                county: user.county,
+                area: user.area,
+                landmark: user.landmark
+            }, secretKey, { expiresIn: '48h' }
+        )
 
-        res.status(201).json({
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-            location: user.location,
-            phoneNumber: user.phoneNumber,
-            profileImgKey: user.profileImgKey,
-            county: user.county,
-            area: user.area,
-            landmark: user.landmark
-        });
+
+        res.status(201).json(token);
 
     } catch (error) {
         next(error);
@@ -293,7 +297,7 @@ export const updateUserProfile: RequestHandler<any, unknown, UpdateProfileBody, 
         }
 
         const updatedUserProfile = await user.save();
-
+        
         res.status(200).json(updatedUserProfile);
 
     } catch (error) {

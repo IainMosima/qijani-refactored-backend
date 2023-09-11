@@ -22,16 +22,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// creating user session using mongo-connect
+
 // NB: change this in the future to auth0
-app.use(session({
-    secret: env.SESSION_SECRETY_KEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 60 * 60 * 1500 },
-    rolling: true,
-    store: MongooseStore.create({ mongoUrl: env.MONGO_CONNECTION_STRING })
-}));
+
 
 // using morgan to log http requests into the console
 if (env.ENVIRONMENT === 'development') {

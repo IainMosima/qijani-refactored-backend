@@ -13,15 +13,15 @@ services:
 
   products-server:
     build:
-      context: products-server
-    image: mosimaiain/products-server
+      context: ./products-server
+    image: mosimaiain/products-server:prod
 
   users-server:
     build:
-      context: users-server
-    image: mosimaiain/users-server
+      context: ./users-server
+    image: mosimaiain/users-server:prod
   
   reverseproxy:
     build:
-      context: reverseproxy
-    image: mosimaiain/reverseproxy
+      context: ./reverseproxy-backend
+    image: mosimaiain/reverseproxy-backend:prod
