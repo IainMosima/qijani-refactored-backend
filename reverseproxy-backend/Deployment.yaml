@@ -15,5 +15,6 @@ spec:
       containers:
         - name: reverseproxy-backend
           image: mosimaiain/reverseproxy-backend:prod
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000

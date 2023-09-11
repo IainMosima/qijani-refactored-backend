@@ -15,5 +15,6 @@ spec:
       containers:
         - name: packages-server
           image: mosimaiain/packages-server:prod
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000

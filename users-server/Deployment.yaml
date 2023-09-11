@@ -15,5 +15,6 @@ spec:
       containers:
         - name: users-server
           image: mosimaiain/users-server:prod
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000

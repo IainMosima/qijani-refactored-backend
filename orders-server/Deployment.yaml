@@ -15,5 +15,6 @@ spec:
       containers:
         - name: orders-server
           image: mosimaiain/orders-server:prod
+          imagePullPolicy: Always
           ports:
             - containerPort: 5000
