@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: reverseproxy-backend
+  name: reverseproxy
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: reverseproxy-backend
+      app: reverseproxy
   template:
     metadata:
       labels:
-        app: reverseproxy-backend
+        app: reverseproxy
     spec:
       containers:
-        - name: reverseproxy-backend
-          image: mosimaiain/reverseproxy-backend:prod
+        - name: reverseproxy
+          image: mosimaiain/reverseproxy:prod
           imagePullPolicy: Always
           ports:
             - name: https

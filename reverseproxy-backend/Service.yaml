@@ -7,8 +7,8 @@ spec:
     app: reverseproxy-backend
   ports:
     - protocol: TCP
-      port: 443
-      targetPort: 443
+      port: 80
+      targetPort: 80
     
   type: LoadBalancer
 

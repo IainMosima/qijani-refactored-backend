@@ -17,5 +17,5 @@ spec:
           image: mosimaiain/reverseproxy-backend:prod
           imagePullPolicy: Always
           ports:
-            - name: https
-              containerPort: 443
+            - name: http
+              containerPort: 80
