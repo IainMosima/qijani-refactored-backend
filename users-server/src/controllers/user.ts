@@ -297,8 +297,9 @@ export const updateUserProfile: RequestHandler<any, unknown, UpdateProfileBody, 
         }
 
         const updatedUserProfile = await user.save();
+        const updatedToken = jwt.sign(updatedUserProfile, secretKey, { expiresIn: '48h' });
         
-        res.status(200).json(updatedUserProfile);
+        res.status(200).json({updatedToken: updatedToken, ...updatedUserProfile});
 
     } catch (error) {
         next(error);
