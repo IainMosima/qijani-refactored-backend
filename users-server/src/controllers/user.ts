@@ -235,6 +235,19 @@ interface UpdateProfileBody {
     area?: string,
     landmark?: string,
 }
+
+interface updatedUser {
+    _id: string,
+    email: string,
+    username: string,
+    location: string,
+    phoneNumber: number,
+    profileImgKey: string,
+    county: string,
+    area: string,
+    landmark: string,
+    password: string
+}
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const updateUserProfile: RequestHandler<any, unknown, UpdateProfileBody, unknown> = async (req, res, next) => {
     const userId = req.params.userId as mongoose.Types.ObjectId;
@@ -296,10 +309,34 @@ export const updateUserProfile: RequestHandler<any, unknown, UpdateProfileBody, 
             user.profileImgKey = imageKey;
         }
 
-        const updatedUserProfile = await user.save();
-        const updatedToken = jwt.sign(updatedUserProfile, secretKey, { expiresIn: '48h' });
-        
-        res.status(200).json({updatedToken: updatedToken, ...updatedUserProfile});
+        const updatedUserProfile = await user.save() as unknown as updatedUser;
+        const updatedToken = jwt.sign(
+            {
+                username: updatedUserProfile.username,
+                email: updatedUserProfile.email,
+                phoneNumber: updatedUserProfile.phoneNumber,
+                location: updatedUserProfile.location,
+                password: updatedUserProfile.password,
+                county: updatedUserProfile.county,
+                area: updatedUserProfile.area,
+                landmark: updatedUserProfile.landmark,
+                profileImgKey: updatedUserProfile.profileImgKey
+            }, secretKey, { expiresIn: '48h' });
+            
+        const updatedInfo = { 
+            updatedToken: updatedToken, 
+            username: updatedUserProfile.username,
+            email: updatedUserProfile.email,
+            phoneNumber: updatedUserProfile.phoneNumber,
+            location: updatedUserProfile.location,
+            password: updatedUserProfile.password,
+            county: updatedUserProfile.county,
+            area: updatedUserProfile.area,
+            landmark: updatedUserProfile.landmark,
+            profileImgKey: updatedUserProfile.profileImgKey
+        };
+
+        res.status(200).json(updatedInfo);
 
     } catch (error) {
         next(error);
