@@ -25,6 +25,26 @@ export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     });
 }
 
+export const getUserInfo: RequestHandler = async(req, res, next) => {
+    const userId = req.params.userId;
+
+    try {
+        if (!mongoose.isValidObjectId(userId)) {
+            throw createHttpError(400, "Invalid user id!");
+        }
+        const user = await UserModel.findById(userId).exec();
+
+        if (!user) {
+            throw createHttpError(400, "User not found!");
+        }
+
+        res.status(200).json(user);
+        
+    } catch (err) {
+        next(err);
+    }
+}
+
 // checking if username exists
 export const checkUername: RequestHandler = async (req, res, next) => {
     const query = req.params.query;

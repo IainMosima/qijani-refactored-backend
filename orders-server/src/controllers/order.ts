@@ -154,7 +154,7 @@ export const cancelOrder: RequestHandler = async (req, res, next) => {
 
     try {
         if (!mongoose.isValidObjectId(orderId)) {
-            throw createHttpError(400, "Order must be a valid id!")
+            throw createHttpError(400, "Order must be a valid id!");
         }
 
         const order = await OrderModel.findById(orderId).exec();
