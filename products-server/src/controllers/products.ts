@@ -260,8 +260,6 @@ export const updateCategories: RequestHandler<unknown, unknown, UpdateDeleteCate
     const categoryId = env.CATEGORIESID;
     const categoryName = req.body.categoryName;
 
-    console.log(categoryId)
-
     try {
         if (!mongoose.isValidObjectId(categoryId)) {
             throw createHttpError(400, "Categories must have a valid id");

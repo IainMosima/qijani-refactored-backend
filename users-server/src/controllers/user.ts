@@ -192,7 +192,7 @@ export const login: RequestHandler<unknown, unknown, LoginBody, unknown> = async
                 county: user.county,
                 area: user.area,
                 landmark: user.landmark
-            }, secretKey, { expiresIn: '48h' }
+            },  secretKey, { expiresIn: '72h' }
         )
 
 
@@ -312,6 +312,7 @@ export const updateUserProfile: RequestHandler<any, unknown, UpdateProfileBody, 
         const updatedUserProfile = await user.save() as unknown as updatedUser;
         const updatedToken = jwt.sign(
             {
+                _id: updatedUserProfile._id,
                 username: updatedUserProfile.username,
                 email: updatedUserProfile.email,
                 phoneNumber: updatedUserProfile.phoneNumber,
@@ -321,10 +322,10 @@ export const updateUserProfile: RequestHandler<any, unknown, UpdateProfileBody, 
                 area: updatedUserProfile.area,
                 landmark: updatedUserProfile.landmark,
                 profileImgKey: updatedUserProfile.profileImgKey
-            }, secretKey, { expiresIn: '48h' });
+            },  secretKey, { expiresIn: '72h' });
             
         const updatedInfo = { 
-            updatedToken: updatedToken, 
+            updatedToken: updatedToken,
             username: updatedUserProfile.username,
             email: updatedUserProfile.email,
             phoneNumber: updatedUserProfile.phoneNumber,
