@@ -9,6 +9,9 @@ const upload = multer({ dest: "uploads/" });
 // getting an authenticated user
 router.get('/', UsersController.getAuthenticatedUser);
 
+// getting a user
+router.get('/:userId', UsersController.getUserInfo);
+
 // creating a new user
 router.post('/signup', upload.single('profileImg'), UsersController.signup);
 
