@@ -8,4 +8,7 @@ export default cleanEnv(process.env, {
     SESSION_SECRETY_KEY: str(),
     ENVIRONMENT: str(),
     AWS_BUCKET_MEAL_KIT: str(),
+    AWS_REGION: str(),
+    AWS_ACCESS_KEY_ID: str(),
+    AWS_SECRET_KEY: str(),
 });

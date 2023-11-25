@@ -4,7 +4,7 @@ import "dotenv/config";
 import express, { Request, Response } from "express";
 import createHtttpError, { isHttpError } from "http-errors";
 import morgan from "morgan";
-import { requireAuth } from "./middleware/requireAuth";
+import mealKitRoutes from "./routes/mealPlan";
 import env from "./utils/validateEnv";
 
 
@@ -29,7 +29,7 @@ if (env.ENVIRONMENT === 'development') {
 // NB: change this in the future to auth0
 
 // package endpoint
-app.use("/api/v1/packages", requireAuth, packageRoutes);
+app.use("/api/v1/mealkit", mealKitRoutes);
 
 
 // middleware to handle an endpoint not found
