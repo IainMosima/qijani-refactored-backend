@@ -4,13 +4,12 @@ import "dotenv/config";
 import express, { Request, Response } from "express";
 import createHtttpError, { isHttpError } from "http-errors";
 import morgan from "morgan";
-import userRoutes from "./routes/user";
+import { requireAuth } from "./middleware/requireAuth";
 import env from "./utils/validateEnv";
 
 
 
-
-const app = express();
+const  app = express();
 
 // enabling cors for all routes
 app.use(cors());
@@ -20,8 +19,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-// NB: change this in the future to auth0
-
 
 // using morgan to log http requests into the console
 if (env.ENVIRONMENT === 'development') {
@@ -29,8 +26,10 @@ if (env.ENVIRONMENT === 'development') {
 }
 
 
-// user endpoint
-app.use("/api/v1/users", userRoutes);
+// NB: change this in the future to auth0
+
+// package endpoint
+app.use("/api/v1/packages", requireAuth, packageRoutes);
 
 
 // middleware to handle an endpoint not found
@@ -45,10 +44,10 @@ app.use((error: unknown, req: Request, res: Response) => {
     let statusCode = 500;
     if (isHttpError(error)) {
         statusCode = error.status;
-        errorMessage = error.message;
+        errorMessage=error.message;
     }
-    res.status(statusCode).json({ error: errorMessage });
-
+    res.status(statusCode).json({  error: errorMessage });
+    
 });
 
 export default app;

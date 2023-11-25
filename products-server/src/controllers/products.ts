@@ -7,8 +7,7 @@ import mongoose from "mongoose";
 import env from "../utils/validateEnv";
 import { unlinkFile } from "../utils/unlinkFIle";
 
-
-const productsBucket = env.AWS_BUCKET_PRODUCTS_NAME
+const productsBucket = env.AWS_BUCKET_PRODUCTS_NAME;
 
 // getting query data
 export const filterProducts: RequestHandler = async (req, res, next) => {
