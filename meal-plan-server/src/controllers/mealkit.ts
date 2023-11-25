@@ -1,21 +1,22 @@
 import { RequestHandler } from "express";
-import MealKitModel from "../models/mealKit";
+import MealKitModel, { NutritionInfo } from "../models/mealKit";
 import * as s3API from "../aws/s3";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
 import env from "../utils/validateEnv";
 import { unlinkFile } from "../utils/unlinkFIle";
+import { String } from "aws-sdk/clients/cloudhsm";
 
 const mealKitBucket = env.AWS_BUCKET_MEAL_KIT;
 
 // getting all mealkits
-export const getAllMealKits: RequestHandler =async (req, res, next) => {
+export const getAllMealKits: RequestHandler = async (req, res, next) => {
     try {
         const mealkits = await MealKitModel.find().exec();
         res.status(200).json(mealkits);
     } catch (error) {
         next(error);
-    } 
+    }
 }
 
 // querying based on preference or meal name
@@ -57,8 +58,9 @@ interface MealKitBody {
     focus: string,
     ingredients: string[],
     basicItems: string[],
-    nutritionInfo: string[],
+    nutritionInfo: NutritionInfo,
     categories: string[],
+    weight: string,
 }
 
 export const createMealKit: RequestHandler<unknown, unknown, MealKitBody, unknown> = async (req, res, next) => {
@@ -71,6 +73,7 @@ export const createMealKit: RequestHandler<unknown, unknown, MealKitBody, unknow
     const basicItems = req.body.basicItems;
     const nutritionInfo = req.body.nutritionInfo;
     const categories = req.body.categories;
+    const weight = req.body.weight;
 
     if (!mealName) {
         throw createHttpError(400, 'MealKit must have a title');
@@ -98,6 +101,7 @@ export const createMealKit: RequestHandler<unknown, unknown, MealKitBody, unknow
             basicItems: basicItems,
             nutritionInfo: nutritionInfo,
             categories: categories,
+            weight: weight,
         });
 
         res.status(200).json(newMealKit);
@@ -123,8 +127,9 @@ interface UpdateProductBody {
     focus?: string,
     ingredients?: string[],
     basicItems?: string[],
-    nutritionInfo?: string[],
+    nutritionInfo?: NutritionInfo,
     categories?: string[],
+    weight: string
 }
 // <'bachelorsCcorner' | 'familyFavourites' | 'vegeterian' | 'carnivoreSpecial' | 'wellness' | 'theBoldChef'>
 export const updateMealKit: RequestHandler<unknown, unknown, UpdateProductBody, unknown> = async (req, res, next) => {
@@ -138,6 +143,7 @@ export const updateMealKit: RequestHandler<unknown, unknown, UpdateProductBody, 
     const basicItems = req.body.basicItems;
     const nutritionInfo = req.body.nutritionInfo;
     const categories = req.body.categories;
+    const weight = req.body.weight;
 
     try {
         if (!mongoose.isValidObjectId(mealKitId)) {
@@ -158,6 +164,7 @@ export const updateMealKit: RequestHandler<unknown, unknown, UpdateProductBody, 
         if (basicItems) mealKit.basicItems = basicItems;
         if (nutritionInfo) mealKit.nutritionInfo = nutritionInfo;
         if (categories) mealKit.categories = categories;
+        if (weight) mealKit.weight = weight;
 
         if (image) {
             // deletinng the image from the s3 bucket
@@ -194,16 +201,15 @@ export const deleteMealkit: RequestHandler = async (req, res, next) => {
         if (!mealkit) {
             throw createHttpError(404, "Mealkit not found!");
         }
+        // deleting the image from the s3 bucket
+        if (mealkit.imageKey) {
+            await s3API.deleteImage(mealkit.imageKey, mealKitBucket);
+        }
 
-               // deleting the image from the s3 bucket
-               if (mealkit.imageKey) {
-                await s3API.deleteImage(mealkit.imageKey, mealKitBucket);
-            }
-    
-            // deleting the product details from mongodb
-            await mealkit.remove();
+        // deleting the product details from mongodb
+        await mealkit.remove();
 
-            res.sendStatus(204);
+        res.sendStatus(204);
     } catch (error) {
         next(error);
     }
