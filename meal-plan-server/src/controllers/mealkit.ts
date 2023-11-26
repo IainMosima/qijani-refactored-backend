@@ -1,11 +1,10 @@
 import { RequestHandler } from "express";
-import MealKitModel, { NutritionInfo } from "../models/mealKit";
-import * as s3API from "../aws/s3";
 import createHttpError from "http-errors";
 import mongoose from "mongoose";
-import env from "../utils/validateEnv";
+import * as s3API from "../aws/s3";
+import MealKitModel, { NutritionInfo } from "../models/mealKit";
 import { unlinkFile } from "../utils/unlinkFIle";
-import { String } from "aws-sdk/clients/cloudhsm";
+import env from "../utils/validateEnv";
 
 const mealKitBucket = env.AWS_BUCKET_MEAL_KIT;
 
@@ -59,7 +58,7 @@ interface MealKitBody {
     ingredients: string[],
     basicItems: string[],
     nutritionInfo: NutritionInfo,
-    categories: string[],
+    preferences: string[],
     weight: string,
 }
 
@@ -72,7 +71,7 @@ export const createMealKit: RequestHandler<unknown, unknown, MealKitBody, unknow
     const ingredients = req.body.ingredients;
     const basicItems = req.body.basicItems;
     const nutritionInfo = req.body.nutritionInfo;
-    const categories = req.body.categories;
+    const preferences = req.body.preferences;
     const weight = req.body.weight;
 
     if (!mealName) {
@@ -100,7 +99,7 @@ export const createMealKit: RequestHandler<unknown, unknown, MealKitBody, unknow
             ingredients: ingredients,
             basicItems: basicItems,
             nutritionInfo: nutritionInfo,
-            categories: categories,
+            preferences: preferences,
             weight: weight,
         });
 
@@ -128,7 +127,7 @@ interface UpdateProductBody {
     ingredients?: string[],
     basicItems?: string[],
     nutritionInfo?: NutritionInfo,
-    categories?: string[],
+    preferences?: string[],
     weight: string
 }
 // <'bachelorsCcorner' | 'familyFavourites' | 'vegeterian' | 'carnivoreSpecial' | 'wellness' | 'theBoldChef'>
@@ -142,7 +141,7 @@ export const updateMealKit: RequestHandler<unknown, unknown, UpdateProductBody, 
     const ingredients = req.body.ingredients;
     const basicItems = req.body.basicItems;
     const nutritionInfo = req.body.nutritionInfo;
-    const categories = req.body.categories;
+    const preferences = req.body.preferences;
     const weight = req.body.weight;
 
     try {
@@ -163,7 +162,7 @@ export const updateMealKit: RequestHandler<unknown, unknown, UpdateProductBody, 
         if (ingredients) (mealKit.ingredients) = ingredients;
         if (basicItems) mealKit.basicItems = basicItems;
         if (nutritionInfo) mealKit.nutritionInfo = nutritionInfo;
-        if (categories) mealKit.categories = categories;
+        if (preferences) mealKit.preferences = preferences;
         if (weight) mealKit.weight = weight;
 
         if (image) {
@@ -189,25 +188,25 @@ export const updateMealKit: RequestHandler<unknown, unknown, UpdateProductBody, 
 
 // deleting a mealkit
 export const deleteMealkit: RequestHandler = async (req, res, next) => {
-    const mealkitId = req.params.mealKitId;
+    const mealKitId = req.params.mealKitId;
 
     try {
-        if (!mongoose.isValidObjectId(mealkitId)) {
+        if (!mongoose.isValidObjectId(mealKitId)) {
             throw createHttpError(400, "Invalid id!");
         }
 
-        const mealkit = await MealKitModel.findById(mealkitId);
+        const mealKit = await MealKitModel.findById(mealKitId);
 
-        if (!mealkit) {
+        if (!mealKit) {
             throw createHttpError(404, "Mealkit not found!");
         }
         // deleting the image from the s3 bucket
-        if (mealkit.imageKey) {
-            await s3API.deleteImage(mealkit.imageKey, mealKitBucket);
+        if (mealKit.imageKey) {
+            await s3API.deleteImage(mealKit.imageKey, mealKitBucket);
         }
 
         // deleting the product details from mongodb
-        await mealkit.remove();
+        await mealKit.remove();
 
         res.sendStatus(204);
     } catch (error) {

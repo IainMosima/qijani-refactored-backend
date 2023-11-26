@@ -35,7 +35,7 @@ const MealKitSchema = new Schema({
     ingredients: { type: Array, required: true },
     basicItems: { type: Array, required: true },
     nutritionInfo: { type: Object as any as NutritionInfo, required: true },
-    categories: { type: Array, required: true },
+    preferences: { type: Array, required: true },
     weight: { type: String, required: true },
 });
 

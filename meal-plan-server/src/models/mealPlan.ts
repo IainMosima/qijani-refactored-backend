@@ -1,16 +1,28 @@
 import { InferSchemaType, Schema, model } from "mongoose";
-import MealKit from "../models/mealKit"
+
+export interface Kit {
+    _id: string,
+    mealName: string,
+    imageKey: string,
+    duration: string,
+    pricing: string,
+    focus: string,
+    ingredients: string,
+    basicItems: string,
+    nutritionInfo: string,
+    categories: string,
+    weight: string,
+    date: Date,
+    mealTime: string,
+}
 
 const MealPlanSchema = new Schema({
     userId: { type: Schema.Types.ObjectId, required: true },
-    category: { type: String, required: true },
-    dayLength: { type: Number, required: true },
+    preference: { type: String, required: true },
+    daysLength: { type: Number, required: true },
     mealsPerDay: { type: Number, required: true },
     serving: { type: String, required: true },
-    mealKits: { type: Array<{
-        kit: typeof MealKit[],
-        days: string[]
-    }>, required: true }
+    mealKits: { type: Array<Kit>, required: true },
 });
 
 type MealPlan = InferSchemaType<typeof MealPlanSchema>;
