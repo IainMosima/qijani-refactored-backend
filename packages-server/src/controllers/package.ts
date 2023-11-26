@@ -22,6 +22,7 @@ interface User {
   iat: number,
   exp: number,
 }
+
 // getting packages belonging to a specific user
 export const getPackages: RequestHandler = async (req, res, next) => {
   const token = req.headers.authorization as string;
@@ -148,7 +149,7 @@ export const updatePackage: RequestHandler<UpdatePackageParam, unknown, UpdatePa
       authenticatedUserId = user._id;
     }
   })
-  
+
   const packageId = req.params.packageId;
   const packageName = req.body.packageName;
   const items = req.body.items;
