@@ -1,26 +1,12 @@
 import express from 'express';
-import * as MealKitController from "../controllers/mealkit";
-import multer from "multer";
+import * as MealPlanController from "../controllers/mealPlan";
 
 const router = express.Router();
-const upload = multer({ dest: "uploads/" });
 
-//  fetching all mealKits
-router.get('/', MealKitController.getAllMealKits);
+// generate meal plan
+router.post('/generateMealPlan', MealPlanController.generateMealPlan);
 
-// querying based on mealKit name and preference name
-router.get('/query/:query', MealKitController.filterMeals);
-
-// fetching specified mealkit based on preference
-router.get('/:category', MealKitController.getMealKitPreference);
-
-// creating a mealkit
-router.post('/', upload.single('image'), MealKitController.createMealKit);
-
-// updating a mealkit
-router.patch('/:mealKitId', upload.single('image'), MealKitController.updateMealKit);
-
-// deleting a mealkit
-router.delete('/:mealKitId', MealKitController.deleteMealkit);
+// delete a meal plan
+router.delete('/:mealPlanId', MealPlanController.deleteMealPlan);
 
 export default router;
