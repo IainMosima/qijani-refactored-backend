@@ -37,7 +37,7 @@
 							"formdata": [
 								{
 									"key": "productName",
-									"value": "Garlic",
+									"value": "Ndengu",
 									"contentType": "multipart/form-data",
 									"type": "default"
 								},
@@ -45,11 +45,11 @@
 									"key": "productImg",
 									"contentType": "multipart/form-data",
 									"type": "file",
-									"src": "/home/space/Desktop/e-soko-images/garlic.png"
+									"src": "/home/space/Downloads/image-removebg-preview (1).png"
 								},
 								{
 									"key": "categoryName",
-									"value": "Vegetables",
+									"value": "Cereals",
 									"contentType": "multipart/form-data",
 									"type": "default"
 								},
@@ -61,7 +61,12 @@
 								},
 								{
 									"key": "price",
-									"value": "100",
+									"value": "235",
+									"type": "default"
+								},
+								{
+									"key": "unit",
+									"value": "kg, 1",
 									"type": "default"
 								}
 							],
@@ -94,19 +99,38 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "productName",
-									"value": "Tomatoes",
-									"type": "default"
+									"key": "price",
+									"value": "70",
+									"type": "default",
+									"disabled": true
 								},
 								{
-									"key": "price",
-									"value": "60",
+									"key": "productImg",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "unit",
+									"value": "kg, 0.045",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "categoryName",
+									"value": "Cereals",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "productName",
+									"value": "Beans (Nyayo)",
 									"type": "default"
 								}
 							]
 						},
 						"url": {
-							"raw": "{{port}}/api/v1/products/63e3f6ac3e1014ec4b4536d8",
+							"raw": "{{port}}/api/v1/products/65213c442484e3fbe6efebb2",
 							"host": [
 								"{{port}}"
 							],
@@ -114,7 +138,7 @@
 								"api",
 								"v1",
 								"products",
-								"63e3f6ac3e1014ec4b4536d8"
+								"65213c442484e3fbe6efebb2"
 							]
 						}
 					},
@@ -126,7 +150,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{port}}/api/v1/products/63e36199c4511339d97f02d0",
+							"raw": "{{port}}/api/v1/products/64f83bf789313a8aebedcaf1",
 							"host": [
 								"{{port}}"
 							],
@@ -134,7 +158,7 @@
 								"api",
 								"v1",
 								"products",
-								"63e36199c4511339d97f02d0"
+								"64f83bf789313a8aebedcaf1"
 							]
 						}
 					},
@@ -146,7 +170,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{port}}/api/v1/products/query/beans",
+							"raw": "{{port}}/api/v1/products/query/cauliflower",
 							"host": [
 								"{{port}}"
 							],
@@ -155,7 +179,7 @@
 								"v1",
 								"products",
 								"query",
-								"beans"
+								"cauliflower"
 							]
 						}
 					},
@@ -167,7 +191,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{port}}/api/v1/products/category?category=Vegetables&records=2",
+							"raw": "{{port}}/api/v1/products/category?category=Fruits&records=2",
 							"host": [
 								"{{port}}"
 							],
@@ -180,7 +204,7 @@
 							"query": [
 								{
 									"key": "category",
-									"value": "Vegetables"
+									"value": "Fruits"
 								},
 								{
 									"key": "records",
@@ -198,7 +222,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"categoryName\": \"Vegetables\"\n}",
+							"raw": "{\n    \"categoryName\": \"Spaghetti\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -250,10 +274,57 @@
 					"response": []
 				},
 				{
-					"name": "Gettting all available categories",
+					"name": "Gettting Available categories",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "productName",
+									"value": "Savannah",
+									"contentType": "multipart/form-data",
+									"type": "default"
+								},
+								{
+									"key": "productImg",
+									"contentType": "multipart/form-data",
+									"type": "file",
+									"src": "/home/space/Desktop/Qijani-Images/whiskey/savanna.png"
+								},
+								{
+									"key": "categoryName",
+									"value": "Beer",
+									"contentType": "multipart/form-data",
+									"type": "default"
+								},
+								{
+									"key": "available",
+									"value": "true",
+									"contentType": "multipart/form-data",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "300",
+									"type": "default"
+								},
+								{
+									"key": "unit",
+									"value": "piece, 1",
+									"type": "default"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{port}}/api/v1/products/availableCategories",
 							"host": [
@@ -322,6 +393,14 @@
 						"header": []
 					},
 					"response": []
+				},
+				{
+					"name": "Get Available",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			]
 		},
@@ -332,7 +411,13 @@
 					"name": "Get authenticated user",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGY4NTVmMWI0MDhhMGRiZDI2MmZlNTIiLCJ1c2VybmFtZSI6InNwYWNlY2FkZXQiLCJlbWFpbCI6InNwYWNlY2FkZXRAc3BhY2V4LmNvbSIsImxvY2F0aW9uIjoidW5kZWZpbmVkIiwicGhvbmVOdW1iZXIiOjExMzI2MzcwOCwicHJvZmlsZUltZ0tleSI6IiIsImNvdW50eSI6Im5haXJvYmkiLCJhcmVhIjoiSnVqYSIsImxhbmRtYXJrIjoiQWdvIEdyYWNpb3VzIiwiaWF0IjoxNjk0ODkxOTEyLCJleHAiOjE2OTUwNjQ3MTJ9.zMrZNwhIIAyatF8nKCq_NfSyNv9fBQ4_gxnmL51kbNI",
+								"type": "default"
+							}
+						],
 						"url": {
 							"raw": "{{port}}/api/v1/users/",
 							"host": [
@@ -363,12 +448,12 @@
 								},
 								{
 									"key": "email",
-									"value": "spacecadet@spacex.com",
+									"value": "spacecade@gmail.com",
 									"type": "default"
 								},
 								{
 									"key": "phoneNumber",
-									"value": "+254123456789",
+									"value": "254113263708",
 									"type": "default"
 								},
 								{
@@ -378,13 +463,14 @@
 								},
 								{
 									"key": "password",
-									"value": "outtaspace",
+									"value": "Outtaspace$1",
 									"type": "default"
 								},
 								{
 									"key": "profileImg",
 									"type": "file",
-									"src": "/home/space/Desktop/e-soko-images/astrounant.jpg"
+									"src": [],
+									"disabled": true
 								}
 							]
 						},
@@ -430,7 +516,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"usernameEmail\": \"spacecadet\",\n    \"password\": \"outtaspace\"\n}",
+							"raw": "{\n    \"usernameEmail\": \"spacecadet\",\n    \"password\": \"Outtaspace$1\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -456,7 +542,142 @@
 					"name": "get image signed url",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/users/signedUrl/42a0516dfc08c000d1d0f4855bb3d9bn",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"signedUrl",
+								"42a0516dfc08c000d1d0f4855bb3d9bn"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "spacecadet",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "county",
+									"value": "Nairobi",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "area",
+									"value": "Juja",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "landmark",
+									"value": "Seasons",
+									"type": "default",
+									"disabled": true
+								},
+								{
+									"key": "prevPassword",
+									"value": "iainmosima",
+									"type": "default"
+								},
+								{
+									"key": "newPassword",
+									"value": "IainMosima$1",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/users/update/64075c497ab1999d04fde5e8",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"update",
+								"64075c497ab1999d04fde5e8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CheckUsername",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/users/checkusername/spacecadet",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"checkusername",
+								"spacecadet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CheckEmail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/users/checkemail/iainmosima@gmail.com",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"checkemail",
+								"iainmosima@gmail.com"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/users/65076a9a65b14d4f815acacc",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"65076a9a65b14d4f815acacc"
+							]
+						}
 					},
 					"response": []
 				}
@@ -469,7 +690,13 @@
 					"name": "Get all packages",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGY4NTVmMWI0MDhhMGRiZDI2MmZlNTIiLCJ1c2VybmFtZSI6InNwYWNlY2FkZXQiLCJlbWFpbCI6InNwYWNlY2FkZXRAc3BhY2V4LmNvbSIsImxvY2F0aW9uIjoidW5kZWZpbmVkIiwicGhvbmVOdW1iZXIiOjExMzI2MzcwOCwicHJvZmlsZUltZ0tleSI6IiIsImNvdW50eSI6ImtpYW1idSIsImFyZWEiOiJKdWphIiwibGFuZG1hcmsiOiJBZ28gR3JhY2lvdXMiLCJpYXQiOjE2OTQ0MDgzMDQsImV4cCI6MTY5NDU4MTEwNH0.gAFfcOP97WU8046t_5u6o_B_sj06SJ4Xr1O0vo-Lj5g",
+								"type": "default"
+							}
+						],
 						"url": {
 							"raw": "{{port}}/api/v1/packages/",
 							"host": [
@@ -567,9 +794,15 @@
 					"name": "Getting a package",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGY4NTVmMWI0MDhhMGRiZDI2MmZlNTIiLCJ1c2VybmFtZSI6InNwYWNlY2FkZXQiLCJlbWFpbCI6InNwYWNlY2FkZXRAc3BhY2V4LmNvbSIsImxvY2F0aW9uIjoidW5kZWZpbmVkIiwicGhvbmVOdW1iZXIiOjExMzI2MzcwOCwicHJvZmlsZUltZ0tleSI6IiIsImNvdW50eSI6ImtpYW1idSIsImFyZWEiOiJKdWphIiwibGFuZG1hcmsiOiJBZ28gR3JhY2lvdXMiLCJpYXQiOjE2OTQ0MDgzMDQsImV4cCI6MTY5NDU4MTEwNH0.gAFfcOP97WU8046t_5u6o_B_sj06SJ4Xr1O0vo-Lj5g",
+								"type": "default"
+							}
+						],
 						"url": {
-							"raw": "{{port}}/api/v1/packages/6424192ea48dae98c9787d9f",
+							"raw": "{{port}}/api/v1/packages/64fad61db408a0dbd2630aed",
 							"host": [
 								"{{port}}"
 							],
@@ -577,7 +810,7 @@
 								"api",
 								"v1",
 								"packages",
-								"6424192ea48dae98c9787d9f"
+								"64fad61db408a0dbd2630aed"
 							]
 						}
 					},
@@ -590,9 +823,27 @@
 			"item": [
 				{
 					"name": "Get all orders",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGY4NTVmMWI0MDhhMGRiZDI2MmZlNTIiLCJ1c2VybmFtZSI6InNwYWNlY2FkZXQiLCJlbWFpbCI6InNwYWNlY2FkZXRAc3BhY2V4LmNvbSIsImxvY2F0aW9uIjoidW5kZWZpbmVkIiwicGhvbmVOdW1iZXIiOjExMzI2MzcwOCwicHJvZmlsZUltZ0tleSI6IiIsImNvdW50eSI6ImtpYW1idSIsImFyZWEiOiJKdWphIiwibGFuZG1hcmsiOiJBZ28gR3JhY2lvdXMiLCJpYXQiOjE2OTQ0MDgzMDQsImV4cCI6MTY5NDU4MTEwNH0.gAFfcOP97WU8046t_5u6o_B_sj06SJ4Xr1O0vo-Lj5g",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
 							"raw": "{{port}}/api/v1/orders/",
 							"host": [
@@ -615,7 +866,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userId\": \"63e3fb144d1547e4dd514e71\",\n    \"price\": \"10\",\n    \"paymentType\": \"mpesa\"\n}",
+							"raw": "{\n    \"userId\": \"64075c497ab1999d04fde5e8\",\n    \"price\": \"10\",\n    \"paymentType\": \"mpesa\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -636,10 +887,447 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Deleta an order",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/orders/64ebad8167a7fbd9bef49be2",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"orders",
+								"64ebad8167a7fbd9bef49be2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Meal-Plan",
+			"item": [
+				{
+					"name": "Meal-kit",
+					"item": [
+						{
+							"name": "Get all meal kits",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{port}}/api/v1/mealkit",
+									"host": [
+										"{{port}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"mealkit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Create a meal kit",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "mealName",
+											"value": "Swahili Pilau",
+											"type": "default"
+										},
+										{
+											"key": "image",
+											"type": "file",
+											"src": "/home/space/Downloads/swahili-pilau.png"
+										},
+										{
+											"key": "duration",
+											"value": "45",
+											"type": "default"
+										},
+										{
+											"key": "pricing",
+											"value": "450",
+											"type": "default"
+										},
+										{
+											"key": "focus",
+											"value": "Balancing aromatic spices, particularly cumin and cardamom, is crucial for Swahili pilau. Achieving a harmonious blend enhances flavor, a cornerstone in creating authentic and delicious dishes.",
+											"type": "default"
+										},
+										{
+											"key": "ingredients",
+											"value": "rice",
+											"type": "default"
+										},
+										{
+											"key": "ingredients",
+											"value": "meat",
+											"type": "default"
+										},
+										{
+											"key": "ingredients",
+											"value": "onions",
+											"type": "default"
+										},
+										{
+											"key": "ingredients",
+											"value": "garlic",
+											"type": "default"
+										},
+										{
+											"key": "ingredients",
+											"value": "grounded pilau masala",
+											"type": "default"
+										},
+										{
+											"key": "ingredients",
+											"value": "salt",
+											"type": "default"
+										},
+										{
+											"key": "ingredients",
+											"value": "potatoes",
+											"type": "default"
+										},
+										{
+											"key": "ingredients",
+											"value": "",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "ingredients",
+											"value": "",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "basicItems",
+											"value": "sufuria",
+											"type": "default"
+										},
+										{
+											"key": "basicItems",
+											"value": "cooking oil",
+											"type": "default"
+										},
+										{
+											"key": "basicItems",
+											"value": "",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "basicItems",
+											"value": "",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "basicItems",
+											"value": "",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "nutritionInfo[per100][energyKj]",
+											"value": "478",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[per100][energyKc]",
+											"value": "114",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[per100][protein]",
+											"value": "2.7",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[per100][glycaemicCarbohydrate]",
+											"value": "14",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[per100][totalSugar]",
+											"value": "2.4",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[per100][totalFat]",
+											"value": "5.4",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[per100][saturatedFat]",
+											"value": "2.1",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[per100][dietaryFibre]",
+											"value": "2.1",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[per100][totalSodium]",
+											"value": "333",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[perServing][energyKj]",
+											"value": "3874",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[perServing][energyKc]",
+											"value": "926",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[perServing][protein]",
+											"value": "21.5",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[perServing][glycaemicCarbohydrate]",
+											"value": "112",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[perServing][totalSugar]",
+											"value": "19.7",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[perServing][totalFat]",
+											"value": "43.8",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[perServing][saturatedFat]",
+											"value": "17.3",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[perServing][dietaryFibre]",
+											"value": "17.4",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[perServing][totalSodium]",
+											"value": "2701",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[allergens]",
+											"value": "Gluten",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[allergens]",
+											"value": "Allium",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[allergens]",
+											"value": "Sesame",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[allergens]",
+											"value": "Whaet",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[allergens]",
+											"value": "Sulphites",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[allergens]",
+											"value": "Soy",
+											"type": "default"
+										},
+										{
+											"key": "nutritionInfo[allergens]",
+											"value": "",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "nutritionInfo[allergens]",
+											"value": "",
+											"type": "default",
+											"disabled": true
+										},
+										{
+											"key": "weight",
+											"value": "heavy",
+											"type": "default"
+										},
+										{
+											"key": "preferences",
+											"value": "familyFavourites",
+											"type": "default"
+										},
+										{
+											"key": "preferences",
+											"value": "bachelorsCorner",
+											"type": "default"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{port}}/api/v1/mealkit",
+									"host": [
+										"{{port}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"mealkit"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Deleting a meal kit",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{port}}/api/v1/mealkit/65625ed8225d38fb64c7d650",
+									"host": [
+										"{{port}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"mealkit",
+										"65625ed8225d38fb64c7d650"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Get all meal plans",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/mealPlan/all",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"mealPlan",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Generate a meal plan",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"preference\": \"bachelorsCorner\",\n    \"mealsPerDay\": 2,\n    \"daysLength\": 3,\n    \"serving\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{port}}/api/v1/mealPlan/generateMealPlan",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"mealPlan",
+								"generateMealPlan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a user's meal plan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/v1/mealPlan",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"mealPlan"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a meal plan",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{port}}/api/mealPlan/",
+							"host": [
+								"{{port}}"
+							],
+							"path": [
+								"api",
+								"mealPlan",
+								""
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTA3NmE5YTY1YjE0ZDRmODE1YWNhY2MiLCJ1c2VybmFtZSI6InNwYWNlY2FkZXQiLCJlbWFpbCI6InNwYWNlY2FkZXRAZ21haWwuY29tIiwibG9jYXRpb24iOiJ1bmRlZmluZWQiLCJwaG9uZU51bWJlciI6MTEzMjYzNzA4LCJwcm9maWxlSW1nS2V5IjoiIiwiY291bnR5IjoibmFpcm9iaSIsImFyZWEiOiJXZXN0bGFuZHMiLCJsYW5kbWFyayI6IlNhcml0IENlbnRlciIsImlhdCI6MTcwMTA2MDM0MSwiZXhwIjoxNzAxMzE5NTQxfQ.uh1E4GVPob1XrdZIY_DKKru_bQdTpVO3m5QNc1DfKbA",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -663,8 +1351,14 @@
 	"variable": [
 		{
 			"key": "port",
-			"value": "http://54.224.198.199:5000",
+			"value": "http://159.223.242.152",
 			"type": "default"
+		},
+		{
+			"key": "{{port }} ",
+			"value": "http://159.223.242.152",
+			"type": "default",
+			"disabled": true
 		}
 	]
 }

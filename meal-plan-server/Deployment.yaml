@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meal-plan-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: meal-plan-server
+  template:
+    metadata:
+      labels:
+        app: meal-plan-server
+    spec:
+      containers:
+        - name: meal-plan-server
+          image: mosimaiain/meal-plan-server:prod
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
