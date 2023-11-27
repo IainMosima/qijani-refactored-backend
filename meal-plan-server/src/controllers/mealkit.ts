@@ -11,8 +11,8 @@ const mealKitBucket = env.AWS_BUCKET_MEAL_KIT;
 // getting all mealkits
 export const getAllMealKits: RequestHandler = async (req, res, next) => {
     try {
-        const mealkits = await MealKitModel.find().exec();
-        res.status(200).json(mealkits);
+        const mealKits = await MealKitModel.find().exec();
+        res.status(200).json(mealKits);
     } catch (error) {
         next(error);
     }

@@ -1,4 +1,4 @@
-function pickAndRemoveRandomItem<T>(arr: T[]): T | null {
+export default function pickAndRemoveRandomItem<T>(arr: T[]): T | null {
     if (arr.length === 0) {
       // If the array is empty, return null or handle accordingly
       return null;
