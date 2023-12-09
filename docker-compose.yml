@@ -21,7 +21,7 @@ services:
       context: ./users-server
     image: mosimaiain/users-server:prod
   
-  reverseproxy:
+  reverseproxy-backend:
     build:
       context: ./reverseproxy-backend
     image: mosimaiain/reverseproxy-backend:prod
