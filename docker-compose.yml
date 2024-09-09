@@ -4,32 +4,51 @@ services:
       context: ./orders-server
     image: mosimaiain/orders-server:prod
     ports:
-      - "8080:8080"
+      - "8081:8080"
+    networks:
+      - qijani-network
 
   packages-server:
     build:
       context: ./packages-server
     image: mosimaiain/packages-server:prod
     ports:
-      - "8081:8080"
+      - "8082:8080"
+    networks:
+      - qijani-network
 
   products-server:
     build:
       context: ./products-server
     image: mosimaiain/products-server:prod
     ports:
-      - "8082:8080"
+      - "8083:8080"
+    networks:
+      - qijani-network
 
   users-server:
     build:
       context: ./users-server
     image: mosimaiain/users-server:prod
     ports:
-      - "8083:8080"
+      - "8084:8080"
+    networks:
+      - qijani-network
   
   reverseproxy-backend:
     build:
       context: ./reverseproxy-backend
     image: mosimaiain/reverseproxy-backend:prod
     ports:
-      - "80:80"
+      - "8080:80"
+    networks:
+      - qijani-network
+    depends_on:
+      - orders-server
+      - packages-server
+      - products-server
+      - users-server
+
+networks:
+  qijani-network:
+    driver: bridge
