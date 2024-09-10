@@ -59,6 +59,31 @@ services:
       - users-server
     mem_limit: 50m
 
+    # qijani-frontend:
+    #   # platform: linux/amd64
+    #   image: mosimaiain/qijani-frontend:prod
+    #   ports:
+    #     - "3000:3000"
+    #   mem_limit: 200m
+  
+  reverseproxy:
+    platform: linux/amd64
+    build:
+      context: ./reverseproxy
+    image: mosimaiain/reverseproxy:prod
+    ports:
+    - "443:443"
+    networks:
+      - qijani-network
+    depends_on:
+      - orders-server
+      - packages-server
+      - products-server
+      - users-server
+      - reverseproxy-backend
+    mem_limit: 50m
+
+
 networks:
   qijani-network:
     driver: bridge
