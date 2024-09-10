@@ -1,5 +1,6 @@
 services:
   orders-server:
+    platform: linux/amd64
     build:
       context: ./orders-server
     image: mosimaiain/orders-server:prod
@@ -9,6 +10,7 @@ services:
       - qijani-network
 
   packages-server:
+    platform: linux/amd64
     build:
       context: ./packages-server
     image: mosimaiain/packages-server:prod
@@ -18,6 +20,7 @@ services:
       - qijani-network
 
   products-server:
+    platform: linux/amd64
     build:
       context: ./products-server
     image: mosimaiain/products-server:prod
@@ -27,6 +30,7 @@ services:
       - qijani-network
 
   users-server:
+    platform: linux/amd64
     build:
       context: ./users-server
     image: mosimaiain/users-server:prod
@@ -36,6 +40,7 @@ services:
       - qijani-network
   
   reverseproxy-backend:
+    platform: linux/amd64
     build:
       context: ./reverseproxy-backend
     image: mosimaiain/reverseproxy-backend:prod
