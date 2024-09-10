@@ -8,6 +8,7 @@ services:
       - "8081:8080"
     networks:
       - qijani-network
+    mem_limit: 100m
 
   packages-server:
     platform: linux/amd64
@@ -18,6 +19,7 @@ services:
       - "8082:8080"
     networks:
       - qijani-network
+    mem_limit: 70m
 
   products-server:
     platform: linux/amd64
@@ -28,6 +30,7 @@ services:
       - "8083:8080"
     networks:
       - qijani-network
+    mem_limit: 100m
 
   users-server:
     platform: linux/amd64
@@ -38,6 +41,7 @@ services:
       - "8084:8080"
     networks:
       - qijani-network
+    mem_limit: 70m
   
   reverseproxy-backend:
     platform: linux/amd64
@@ -53,6 +57,7 @@ services:
       - packages-server
       - products-server
       - users-server
+    mem_limit: 50m
 
 networks:
   qijani-network:
