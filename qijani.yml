@@ -1,8 +1,7 @@
+version: '3.7'
+
 services:
   orders-server:
-    platform: linux/amd64
-    build:
-      context: ./orders-server
     image: mosimaiain/orders-server:prod
     ports:
       - "8081:8080"
@@ -10,10 +9,8 @@ services:
       - qijani-network
     mem_limit: 100m
 
+
   packages-server:
-    platform: linux/amd64
-    build:
-      context: ./packages-server
     image: mosimaiain/packages-server:prod
     ports:
       - "8082:8080"
@@ -22,9 +19,6 @@ services:
     mem_limit: 70m
 
   products-server:
-    platform: linux/amd64
-    build:
-      context: ./products-server
     image: mosimaiain/products-server:prod
     ports:
       - "8083:8080"
@@ -33,20 +27,14 @@ services:
     mem_limit: 100m
 
   users-server:
-    platform: linux/amd64
-    build:
-      context: ./users-server
     image: mosimaiain/users-server:prod
     ports:
       - "8084:8080"
     networks:
       - qijani-network
     mem_limit: 70m
-  
+
   reverseproxy-backend:
-    platform: linux/amd64
-    build:
-      context: ./reverseproxy-backend
     image: mosimaiain/reverseproxy-backend:prod
     ports:
       - "8080:80"
@@ -58,30 +46,25 @@ services:
       - products-server
       - users-server
     mem_limit: 50m
-
-  qijani-frontend:
-      platform: linux/amd64
-      image: mosimaiain/qijani-frontend:prod
-      ports:
-        - "3000:3000"
-      mem_limit: 200m
-      depends_on:
-        - reverseproxy-backend
   
   reverseproxy:
     platform: linux/amd64
-    build:
-      context: ./reverseproxy
     image: mosimaiain/reverseproxy:prod
     ports:
     - "443:443"
     networks:
       - qijani-network
     depends_on:
-      - qijani-frontend
       - reverseproxy-backend
-    mem_limit: 50m
-
+  
+  qijani-frontend:
+    platform: linux/amd64
+    image: mosimaiain/qijani-frontend:prod
+    ports:
+      - "3000:3000"
+    mem_limit: 200m
+    depends_on:
+      - reverseproxy
 
 networks:
   qijani-network:
