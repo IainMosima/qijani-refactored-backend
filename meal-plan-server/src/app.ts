@@ -21,12 +21,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-
 // using morgan to log http requests into the console
 if (env.ENVIRONMENT === 'development') {
     app.use(morgan("dev"));
 }
-
 
 // mealkit endpoint
 app.use("/api/v1/mealKit", mealKitRoutes);
