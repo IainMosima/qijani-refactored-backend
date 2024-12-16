@@ -1,33 +1,31 @@
 ```mermaid
-flowchart TD
+flowchart LR
     A[Requirements] --> B[System Architecture]
     
     subgraph Services[Core Services]
-        B --> C[User Service]
-        B --> D[Product Service]
-        B --> E[Order Service]
-        B --> F[Recommendation Service]
-        B --> G[Payment Service]
+        direction LR
+        C[User]
+        D[Product]
+        E[Order]
+        F[Recommendations]
+        G[Payment]
     end
     
     subgraph Stack[Tech Stack]
-        H[Frontend: React/Next.js]
-        I[Backend: Node.js/Spring Boot]
-        J[Database: MongoDB]
+        direction LR
+        H[React/Next.js]
+        I[Node/Spring]
+        J[MongoDB]
     end
     
+    subgraph AI[AI]
+        direction LR
+        K[RAG] --> L[Knowledge Base]
+    end
+    
+    B --> Services
     Services --> Stack
-    
-    subgraph AI[AI Component]
-        K[RAG System]
-        L[Knowledge Base]
-        K --> L
-    end
-    
     Stack --> AI
-    
-    M[Development & Testing]
-    AI --> M
-    
-    M --> N[AWS Deployment]
+    AI --> M[Dev & Test]
+    M --> N[AWS Deploy]
 ```
