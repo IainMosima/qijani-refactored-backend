@@ -1,0 +1,17 @@
+{
+  "name": "qijani-backend",
+  "version": "1.0.0",
+  "description": "Qijani Backend Services",
+  "scripts": {
+    "test": "npm run test:all",
+    "test:all": "concurrently \"npm run test:products\" \"npm run test:orders\" \"npm run test:users\" \"npm run test:meal-plan\"",
+    "test:products": "cd products-server && npm test",
+    "test:orders": "cd orders-server && npm test",
+    "test:users": "cd users-server && npm test",
+    "test:meal-plan": "cd meal-plan-server && npm test",
+    "test:coverage": "npm run test:all -- --coverage"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
