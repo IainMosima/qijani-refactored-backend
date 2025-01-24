@@ -7,7 +7,7 @@ const port = env.PORT;
 // setting strictQuery
 mongoose.set('strictQuery', true);
 
-// connection to mongoose db then running the express app
+// connection to mongoose db then running the epress app
 mongoose.connect(env.MONGO_CONNECTION_STRING)
 .then(() => {
     console.log("Mongoose connection established")

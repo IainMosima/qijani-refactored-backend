@@ -8,6 +8,7 @@ const secretKey = env.SESSION_SECRETY_KEY;
 
 export const requireAuth: RequestHandler = async (req, res, next) => {
     const token = req.headers.authorization as string;
+
     if (!token) {
         next(createHttpError(401, 'Unauthorized'));
     }
