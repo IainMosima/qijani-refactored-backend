@@ -61,7 +61,14 @@ services:
 
   qijani-frontend:
       platform: linux/amd64
+      build:
+        context: /Users/apple/Desktop/Qijani/frontend
       image: mosimaiain/qijani-frontend:prod
+      environment:
+        - BACKEND_API=http://reverseproxy-backend
+        - BACKEND_API_2=http://reverseproxy-backend
+      networks:
+        - qijani-network
       ports:
         - "3000:3000"
       mem_limit: 200m
@@ -78,7 +85,7 @@ services:
     networks:
       - qijani-network
     depends_on:
-      - qijani-frontend
+      # - qijani-frontend
       - reverseproxy-backend
     mem_limit: 50m
 

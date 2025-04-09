@@ -27,15 +27,14 @@ export const getOrders: RequestHandler = async (req, res, next) => {
     const token = req.headers.authorization as string;
     let authenticatedUserId = '';
 
+
+
     jwt.verify(token.split(' ')[1] || ' ', secretKey, (err, decoded) => {
-        if (!token) {
-            next(createHttpError(401, 'Unauthorized'));
+        if (err) {
+            res.status(401).send({message: 'Invalid token'});
         }
-        const user = decoded as User;
-        if (user) {
-            authenticatedUserId = user._id;
-        }
-    })
+        authenticatedUserId = (decoded as User)._id;
+    });
 
     try {
         assertIsDefined(authenticatedUserId);

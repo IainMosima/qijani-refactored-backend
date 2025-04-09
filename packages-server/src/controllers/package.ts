@@ -29,14 +29,11 @@ export const getPackages: RequestHandler = async (req, res, next) => {
   let authenticatedUserId = '';
 
   jwt.verify(token.split(' ')[1] || ' ', secretKey, (err, decoded) => {
-    if (!token) {
-      next(createHttpError(401, 'Unauthorized'));
+    if (err) {
+        res.status(401).send({message: 'Invalid token'});
     }
-    const user = decoded as User;
-    if (user) {
-      authenticatedUserId = user._id;
-    }
-  })
+    authenticatedUserId = (decoded as User)._id;
+});
 
   try {
     assertIsDefined(authenticatedUserId);

@@ -15,11 +15,11 @@ const secretKey = env.SESSION_SECRETY_KEY;
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
     const token = req.headers.authorization as string;
     if (!token) {
-        res.status(401).send('Unauthorized');
+        res.status(401).json({message: 'Unauthorized No token provided'});
     }
     jwt.verify(token.split(' ')[1] || ' ', secretKey, (err, decoded) => {
         if (err) {
-            res.status(401).send('Invalid token');
+            res.status(401).send({message: 'Invalid token'});
         }
         res.status(200).json(decoded);
     });
