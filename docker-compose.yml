@@ -64,9 +64,6 @@ services:
       build:
         context: /Users/apple/Desktop/Qijani/frontend
       image: mosimaiain/qijani-frontend:prod
-      environment:
-        - BACKEND_API=http://reverseproxy-backend
-        - BACKEND_API_2=http://reverseproxy-backend
       networks:
         - qijani-network
       ports:
