@@ -1,4 +1,14 @@
 services:
+  meal-recommendation-engine:
+    platform: linux/amd64
+    # build:
+    #   context: ./
+    image: mosimaiain/qijani-recommendation-engine:prod
+    ports:
+      - "2024:2024"
+    mem_limit: 500m
+    networks:
+      - qijani-network
   orders-server:
     platform: linux/amd64
     build:
@@ -42,6 +52,7 @@ services:
     networks:
       - qijani-network
     mem_limit: 70m
+ 
   
   reverseproxy-backend:
     platform: linux/amd64
@@ -53,6 +64,7 @@ services:
     networks:
       - qijani-network
     depends_on:
+      - meal-recommendation-engine
       - orders-server
       - packages-server
       - products-server
@@ -61,8 +73,8 @@ services:
 
   qijani-frontend:
       platform: linux/amd64
-      build:
-        context: /Users/apple/Desktop/Qijani/frontend
+      # build:
+      #   context: /Users/apple/Desktop/Qijani/frontend
       image: mosimaiain/qijani-frontend:prod
       networks:
         - qijani-network
