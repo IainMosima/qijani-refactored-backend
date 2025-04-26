@@ -7,6 +7,6 @@ const MealRecommendationSchema = new Schema({
     recommendedMeals: { type: Schema.Types.Mixed, required: true },
 });
 
-type MealKit = InferSchemaType<typeof MealRecommendationSchema>;
+type MealRecommendation = InferSchemaType<typeof MealRecommendationSchema>;
 
-export default model<MealKit>('MealKit', MealRecommendationSchema);
+export default model<MealRecommendation>('MealRecommendation', MealRecommendationSchema);

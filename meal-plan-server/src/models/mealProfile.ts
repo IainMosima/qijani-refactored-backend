@@ -14,6 +14,6 @@ const MealProfileSchema = new Schema({
     weightGoal: { type: String, required: true },
 });
 
-type MealPlan = InferSchemaType<typeof MealProfileSchema>;
+type MealProfile = InferSchemaType<typeof MealProfileSchema>;
 
-export default model<MealPlan>('MealPlan', MealProfileSchema);
+export default model<MealProfile>('MealProfile', MealProfileSchema);

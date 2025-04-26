@@ -11,10 +11,11 @@ export const requireAuth: RequestHandler = async (req, res, next) => {
     if (!token) {
         next(createHttpError(401, 'Unauthorized'));
     }
-    jwt.verify(token.split(' ')[1] || ' ', secretKey, (err, decoded) => {
-        if (err) {
-            next(createHttpError(401, 'Invalid token'));
-        }
-        next();
-    });
+    next()
+    // jwt.verify(token.split(' ')[1] || ' ', secretKey, (err, decoded) => {
+    //     if (err) {
+    //         next(createHttpError(401, 'Invalid token'));
+    //     }
+    //     next();
+    // });
 }

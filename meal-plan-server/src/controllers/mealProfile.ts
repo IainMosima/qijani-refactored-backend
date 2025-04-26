@@ -28,6 +28,7 @@ interface User {
 // Create a new meal profile
 export const createMealProfile: RequestHandler<unknown, unknown, MealProfileBody, unknown> = async (req, res, next) => {
   const token = req.headers.authorization as string;
+
   let authenticatedUserId = '';
 
   jwt.verify(token.split(' ')[1] || ' ', secretKey, (err, decoded) => {

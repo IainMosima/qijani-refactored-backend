@@ -34,7 +34,7 @@ app.use("/api/v1/mealRecommendation", requireAuth, mealRecommendationRoutes);
 app.use("/api/v1/mealProfile", requireAuth, mealProfileRoutes);
 
 // meal recommendation endpoint
-app.use("/api/v1/mealRecommendations", requireAuth, mealRecommendationRoutes);
+app.use("/api/v1/mealRecommendations", mealRecommendationRoutes);
 
 // middleware to handle an endpoint not found
 app.use((req, res, next) => {
