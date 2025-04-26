@@ -4,14 +4,14 @@ import "dotenv/config";
 import express, { Request, Response } from "express";
 import createHtttpError, { isHttpError } from "http-errors";
 import morgan from "morgan";
-import mealKitRoutes from "./routes/mealKit";
-import mealPlanRoutes from "./routes/mealPlan";
-import env from "./utils/validateEnv";
 import { requireAuth } from "./middleware/requireAuth";
 
-
+import mealProfileRoutes from "./routes/mealProfile";
+import mealRecommendationRoutes from "./routes/mealRecommendation";
+import env from "./utils/validateEnv";
 
 const app = express();
+
 
 // enabling cors for all routes
 app.use(cors());
@@ -20,18 +20,21 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
 // using morgan to log http requests into the console
 if (env.ENVIRONMENT === 'development') {
     app.use(morgan("dev"));
 }
 
-// mealkit endpoint
-app.use("/api/v1/mealKit", mealKitRoutes);
+// NB: change this in the future to auth0
+
+// meal kit endpoint
+app.use("/api/v1/mealRecommendation", requireAuth, mealRecommendationRoutes);
 
 // meal plan endpoint
-app.use("/api/v1/mealPlan", requireAuth, mealPlanRoutes);
+app.use("/api/v1/mealProfile", requireAuth, mealProfileRoutes);
 
+// meal recommendation endpoint
+app.use("/api/v1/mealRecommendations", requireAuth, mealRecommendationRoutes);
 
 // middleware to handle an endpoint not found
 app.use((req, res, next) => {
@@ -48,7 +51,6 @@ app.use((error: unknown, req: Request, res: Response) => {
         errorMessage = error.message;
     }
     res.status(statusCode).json({ error: errorMessage });
-
 });
 
 export default app;

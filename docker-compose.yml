@@ -9,6 +9,7 @@ services:
     mem_limit: 500m
     networks:
       - qijani-network
+  
   orders-server:
     platform: linux/amd64
     build:
@@ -64,25 +65,25 @@ services:
     networks:
       - qijani-network
     depends_on:
-      - meal-recommendation-engine
+      # - meal-recommendation-engine
       - orders-server
       - packages-server
       - products-server
       - users-server
     mem_limit: 50m
 
-  qijani-frontend:
-      platform: linux/amd64
-      # build:
-      #   context: /Users/apple/Desktop/Qijani/frontend
-      image: mosimaiain/qijani-frontend:prod
-      networks:
-        - qijani-network
-      ports:
-        - "3000:3000"
-      mem_limit: 200m
-      depends_on:
-        - reverseproxy-backend
+  # qijani-frontend:
+  #     platform: linux/amd64
+  #     # build:
+  #     #   context: /Users/apple/Desktop/Qijani/frontend
+  #     image: mosimaiain/qijani-frontend:prod
+  #     networks:
+  #       - qijani-network
+  #     ports:
+  #       - "3000:3000"
+  #     mem_limit: 200m
+  #     depends_on:
+  #       - reverseproxy-backend
   
   reverseproxy:
     platform: linux/amd64
