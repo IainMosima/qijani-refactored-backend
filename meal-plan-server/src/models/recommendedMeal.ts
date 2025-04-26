@@ -3,7 +3,7 @@ import { AIrecommendedMeals } from "../dto/response";
 
 
 const MealRecommendationSchema = new Schema({
-    userId: { type: Schema.Types.ObjectId, required: true },
+    userId: { type: String, required: true },
     recommendedMeals: { type: Schema.Types.Mixed, required: true },
 });
 

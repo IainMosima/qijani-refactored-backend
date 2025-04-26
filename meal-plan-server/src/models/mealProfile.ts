@@ -2,7 +2,7 @@ import { InferSchemaType, Schema, model } from "mongoose";
 
 
 const MealProfileSchema = new Schema({
-    userId: { type: Schema.Types.ObjectId, required: true },
+    userId: { type: String, required: true },
     age: { type: Number, required: true },
     gender: { type: String, required: true },
     heightCm: { type: Number, required: true },
