@@ -27,10 +27,8 @@ if (env.ENVIRONMENT === 'development') {
 
 // NB: change this in the future to auth0
 
-// meal kit endpoint
-app.use("/api/v1/mealRecommendation", requireAuth, mealRecommendationRoutes);
 
-// meal plan endpoint
+// meal profile endpoint
 app.use("/api/v1/mealProfile", requireAuth, mealProfileRoutes);
 
 // meal recommendation endpoint

@@ -60,7 +60,7 @@ services:
       context: ./meal-recommendation-server
     image: mosimaiain/meal-recommendation-server:prod
     ports:
-      - "8083:8080"
+      - "8085:8080"
     networks:
       - qijani-network
     depends_on:
